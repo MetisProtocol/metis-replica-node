@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+  dtl:
+    image: ericlee42/metis-dtl:20211229
+    entrypoint: ./dtl.sh
+    restart: unless-stopped
+    stop_grace_period: 30s
+    environment:
+      URL: https://metis-us-east-2-mainnet-json.s3.us-east-2.amazonaws.com/addresses.json
+      DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT: CHANGE TO YOUR L1 RPC ENDPOINT
+      DATA_TRANSPORT_LAYER__L2_RPC_ENDPOINT: "https://andromeda.metis.io/?owner=1088"
+      DATA_TRANSPORT_LAYER__SYNC_FROM_L1: "false"
+      DATA_TRANSPORT_LAYER__SYNC_FROM_L2: "true"
+      DATA_TRANSPORT_LAYER__L2_CHAIN_ID: "1088"
+      DATA_TRANSPORT_LAYER__DB_PATH: /data/db
+      DATA_TRANSPORT_LAYER__SERVER_PORT: "7878"
+      DATA_TRANSPORT_LAYER__TRANSACTIONS_PER_POLLING_INTERVAL: "1000"
+      DATA_TRANSPORT_LAYER__CONFIRMATIONS: "0"
+      DATA_TRANSPORT_LAYER__POLLING_INTERVAL: "100"
+      DATA_TRANSPORT_LAYER__LOGS_PER_POLLING_INTERVAL: "2000"
+      DATA_TRANSPORT_LAYER__DANGEROUSLY_CATCH_ALL_ERRORS: "true"
+      DATA_TRANSPORT_LAYER__SERVER_HOSTNAME: "0.0.0.0"
+    ports:
+      - 7878:7878
+    volumes:
+      - $PWD/chaindata/dtl:/data/db
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "2m"
+        max-file: "10"
+
+  l2geth:
+    image: ericlee42/metis-l2geth:20211229
+    entrypoint: sh ./geth.sh
+    restart: unless-stopped
+    stop_grace_period: 2m
+    env_file:
+      - ./geth.env
+    environment:
+      ROLLUP_BACKEND: "l2"
+      URL: https://metis-us-east-2-mainnet-json.s3.us-east-2.amazonaws.com/addresses.json
+      L2GETH_GENESIS_URL: https://metis-us-east-2-mainnet-json.s3.us-east-2.amazonaws.com/state-dump.latest.json
+      ROLLUP_CLIENT_HTTP: http://dtl:7878
+      L2_URL: https://andromeda.metis.io/?owner=1088
+      ETH1_CTC_DEPLOYMENT_HEIGHT: 8
+    volumes:
+      - $PWD/chaindata/l2geth:/root/.ethereum
+      - $PWD/geth.sh:/geth.sh
+    ports:
+      - 8545:8545
+      - 8546:8546
+      - 30303:30303
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "2m"
+        max-file: "10"
