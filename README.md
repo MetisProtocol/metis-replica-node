@@ -1,5 +1,7 @@
 # Metis Andromeda Replica
 
+You may not need this, you can use our [public rpc](https://docs.metis.io/building-on-metis/connection-details).
+
 It retrives data from L2 nodes, and no blocks lag behind.
 
 You should submmit your new txs directly to our public rpc node, the replica node doesn't broadcast your txs to sequencer node.
