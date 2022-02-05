@@ -24,7 +24,7 @@ services:
     ports:
       - 7878:7878
     volumes:
-      - $PWD/chaindata/dtl:/data/db
+      - $PWD/chaindata/dtl:/data
     logging:
       driver: "json-file"
       options:
