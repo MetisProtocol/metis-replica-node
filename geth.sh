@@ -24,7 +24,10 @@ if [[ -z $BLOCK_SIGNER_ADDRESS ]]; then
     echo "Must pass BLOCK_SIGNER_ADDRESS"
     exit 1
 fi
-
+if [[ -z $ROLLUP_POLL_INTERVAL ]]; then
+    echo "Must pass ROLLUP_POLL_INTERVAL"
+	exit 1
+fi
 # Check for an existing chaindata folder.
 # If it exists, assume it's correct and skip geth init step
 GETH_CHAINDATA_DIR=$DATADIR/geth/chaindata
@@ -71,4 +74,5 @@ exec geth \
     --miner.etherbase $BLOCK_SIGNER_ADDRESS \
     --syncmode full \
     --gcmode archive \
+    --rollup.pollinterval "$ROLLUP_POLL_INTERVAL" \
     "$@"
