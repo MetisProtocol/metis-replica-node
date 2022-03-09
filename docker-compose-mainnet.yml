@@ -48,8 +48,9 @@ services:
     volumes:
       - $PWD/chaindata/l2geth:/root/.ethereum
       - $PWD/geth.sh:/geth.sh
+    expose:
+      - 8545
     ports:
-      - 8545:8545
       - 8546:8546
     logging:
       driver: "json-file"
@@ -62,7 +63,7 @@ services:
     restart: unless-stopped
     stop_grace_period: 30s
     ports:
-      - 8080:8545
+      - 8545:8545
     logging:
       driver: "json-file"
       options:
