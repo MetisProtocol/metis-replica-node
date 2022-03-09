@@ -59,7 +59,7 @@ services:
         max-file: "10"
 
   proxy:
-    image: ericlee/metis-proxy:latest
+    image: ericlee42/metis-proxy:latest
     restart: unless-stopped
     stop_grace_period: 30s
     ports:
