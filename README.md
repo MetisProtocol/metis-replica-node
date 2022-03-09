@@ -4,8 +4,6 @@ You may not need this, you can use our [public rpc](https://docs.metis.io/buildi
 
 It retrives data from L2 nodes, and no blocks lag behind.
 
-You should submmit your new txs directly to our public rpc node, the replica node doesn't broadcast your txs to sequencer node.
-
 # Required
 
 - docker
@@ -86,7 +84,15 @@ INFO [12-29|07:38:23.231] Syncing transaction range                start=0 end=9
 INFO [12-29|07:38:38.224] Syncing transaction range                start=0 end=92926 backend=l2
 ```
 
-### RPC Query exmaple
+## Start proxy server
+
+```sh
+docker-compose up -d proxy
+```
+
+[Proxy server](https://github.com/ericlee42/metis-proxy) is responsible for forwarding traffic to local replica and sequencer node
+
+## RPC exmaple
 
 ```console
 $ curl --header 'Content-Type: application/json'  'http://localhost:8545' --data-raw '{"id": "1","jsonrpc": "2.0","method": "eth_chainId","params": []}'
@@ -97,4 +103,8 @@ $ curl --header 'Content-Type: application/json'  'http://localhost:8545' --data
 
 $ curl --header 'Content-Type: application/json'  'http://localhost:8545' --data-raw '{"id": "1","jsonrpc": "2.0","method": "eth_getBlockByNumber","params": ["latest",false]}'
 {"jsonrpc":"2.0","id":"1","result":{"difficulty":"0x1","extraData":"0x000000000000000000000000000000000000000000000000000000000000000000000398232e2064f896018496b4b44b3d62751f0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000","gasLimit":"0x4190ab00","gasUsed":"0x0","hash":"0x9e3354e081a54a57190bdb8948a597c840ea5dd496b0322864d4585f4a716892","logsBloom":"0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000","miner":"0x0000000000000000000000000000000000000000","mixHash":"0x0000000000000000000000000000000000000000000000000000000000000000","nonce":"0x0000000000000000","number":"0x0","parentHash":"0x0000000000000000000000000000000000000000000000000000000000000000","receiptsRoot":"0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421","sha3Uncles":"0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347","size":"0x26f","stateRoot":"0x86c9b145f467994ffb6b07274d02bf7bb302a7caac27a97823e1c9f456e3c1e3","timestamp":"0x0","totalDifficulty":"0x1","transactions":[],"transactionsRoot":"0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421","uncles":[]}}
+
+$ curl -X POST 'http://localhost:8080' -H 'Content-Type: application/json' --data-raw '{"id": "1","jsonrpc": "2.0","method": "eth_sendRawTransaction","params": ["0x"]}'
 ```
+
+Note: The `8546` port is a read-only websocket port for now, you could not use it for `eth_sendRawTransaction` rpc method
