@@ -64,6 +64,8 @@ services:
     stop_grace_period: 30s
     ports:
       - 8545:8545
+    command:
+      - -timeout=5
     logging:
       driver: "json-file"
       options:

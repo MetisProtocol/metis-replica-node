@@ -92,6 +92,8 @@ docker-compose up -d proxy
 
 [Proxy server](https://github.com/ericlee42/metis-proxy) is responsible for forwarding traffic to local replica and sequencer node
 
+default timeout is 5s, you can change `-timeout` command argument to a bigger one.
+
 ## RPC exmaple
 
 ```console
