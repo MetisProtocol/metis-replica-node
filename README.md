@@ -9,6 +9,14 @@ It retrives data from L2 nodes, and no blocks lag behind.
 - docker
 - docker-compose
 
+## Recommended hardware specification
+
+RAM: 8 GB
+
+CPU: 4 core CPU
+
+Storage: Minimum 100GB SSD (make sure it is extendable)
+
 # Setup a replica node
 
 ## clone the repository
