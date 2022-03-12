@@ -23,7 +23,7 @@ git clone https://github.com/ericlee42/metis-replica-node-guide
 cp docker-compose-mainnet.yml docker-compose.yml
 ```
 
-change `DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT` config, it's your Ethereum mainnnet rpc endpoint(You can use [infura](https://infura.io/) public serivce).
+you should change `DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT` environment variable in the `docker-compose.yml`, it's your Ethereum mainnnet rpc endpoint(You can use [infura](https://infura.io/) public serivce).
 
 ## start the dtl service
 
