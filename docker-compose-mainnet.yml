@@ -47,7 +47,7 @@ services:
       EMERGENCY_FORK_NUMBER: 750000
     volumes:
       - $PWD/chaindata/l2geth:/root/.ethereum
-      - $PWD/geth.sh:/geth.sh
+      - $PWD/geth.sh:/.geth.sh
     expose:
       - 8545
     ports:
