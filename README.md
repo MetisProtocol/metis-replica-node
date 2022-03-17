@@ -7,7 +7,7 @@ It retrives data from L2 nodes, and no blocks lag behind.
 # Required
 
 - docker
-- docker-compose
+- docker-compose(version 2.x is required)
 
 ## Recommended hardware specification
 
