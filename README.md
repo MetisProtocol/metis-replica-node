@@ -33,6 +33,10 @@ cp docker-compose-mainnet.yml docker-compose.yml
 
 you should change `DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT` environment variable in the `docker-compose.yml`, it's your Ethereum mainnnet rpc endpoint(You can use [infura](https://infura.io/) public serivce).
 
+**Optional: change volumes**
+
+By default, replica node creates a `chaindata` directory in the current directory. You can change the volumes configuration in your compose file to customize the storage directory.
+
 ## start the dtl service
 
 ```
