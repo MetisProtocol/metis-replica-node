@@ -44,7 +44,8 @@ services:
       L2GETH_GENESIS_URL: https://metis-us-east-2-mainnet-json.s3.us-east-2.amazonaws.com/state-dump.latest.json
       ROLLUP_CLIENT_HTTP: http://dtl:7878
       L2_URL: https://andromeda.metis.io/?owner=1088
-      EMERGENCY_FORK_NUMBER: 750000
+      ETH1_CTC_DEPLOYMENT_HEIGHT: 13626959
+      EMERGENCY_FORK020222_NUMBER: 750000
     volumes:
       - $PWD/chaindata/l2geth:/root/.ethereum
       - $PWD/geth.sh:/geth.sh
