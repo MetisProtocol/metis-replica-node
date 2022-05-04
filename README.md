@@ -106,7 +106,7 @@ docker-compose up -d proxy
 
 default timeout is 5s, you can change `-timeout` command argument to a bigger one.
 
-## RPC exmaple
+## RPC example
 
 ```console
 $ # get chain id
