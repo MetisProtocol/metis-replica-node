@@ -32,7 +32,7 @@ services:
         max-file: "10"
 
   l2geth:
-    image: metisdao/mvm-andromeda:l2geth
+    image: metisdao/mvm-andromeda:l2geth-replica
     entrypoint: sh ./geth.sh
     restart: unless-stopped
     stop_grace_period: 2m
