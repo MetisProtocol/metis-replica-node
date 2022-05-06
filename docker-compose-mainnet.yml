@@ -49,24 +49,9 @@ services:
     volumes:
       - $PWD/chaindata/l2geth:/root/.ethereum
       - $PWD/geth.sh:/geth.sh
-    expose:
-      - 8545
     ports:
       - 8546:8546
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "2m"
-        max-file: "10"
-
-  proxy:
-    image: ericlee42/metis-proxy:latest
-    restart: unless-stopped
-    stop_grace_period: 30s
-    ports:
       - 8545:8545
-    command:
-      - -timeout=10
     logging:
       driver: "json-file"
       options:
