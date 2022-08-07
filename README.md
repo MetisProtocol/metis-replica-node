@@ -6,6 +6,7 @@ It retrives data from L2 nodes, and no blocks lag behind.
 
 # Required
 
+- Linux(x86_64)
 - docker
 - docker-compose(version 2.x is required)
 
@@ -13,7 +14,7 @@ It retrives data from L2 nodes, and no blocks lag behind.
 
 RAM: 8 GB
 
-CPU: 4 core CPU
+CPU: 4 core CPU(x86_64)
 
 Storage: Minimum 100GB SSD (make sure it is extendable)
 
