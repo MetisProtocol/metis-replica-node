@@ -2,7 +2,7 @@ version: "3"
 
 services:
   dtl:
-    image: metisdao/mvm-andromeda:dtl
+    image: metisdao/mvm-andromeda:dtl@sha256:d0b7419f7443510a58d073403fc4add4657ba5b58d41e4c89e41bfbff86c571f
     entrypoint: ./dtl.sh
     restart: unless-stopped
     stop_grace_period: 30s
@@ -32,7 +32,7 @@ services:
         max-file: "10"
 
   l2geth:
-    image: metisdao/mvm-andromeda:l2geth-replica
+    image: metisdao/mvm-andromeda:l2geth-replica@sha256:90fa9912aca5b695f33636cd62a4b53d1665a2517d95af416e2dacee18884e4c
     entrypoint: sh ./geth.sh
     restart: unless-stopped
     stop_grace_period: 2m
