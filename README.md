@@ -1,6 +1,6 @@
 # Metis Andromeda Replica
 
-You may not need this, you can use our [public rpc](https://docs.metis.io/building-on-metis/connection-details).
+You may not need this, you can use our [public rpc](https://docs.metis.io/dev/get-started/metis-connection-details).
 
 It retrives data from L2 nodes, and no blocks lag behind.
 
@@ -8,13 +8,13 @@ It retrives data from L2 nodes, and no blocks lag behind.
 
 - Linux(x86_64)
 - docker
-- docker-compose(version 2.x is required)
+- docker-compose v2
 
 ## Recommended hardware specification
 
 RAM: 8 GB
 
-CPU: 4 core CPU(x86_64)
+CPU: 4 core(x86_64)
 
 Storage: Minimum 100GB SSD (make sure it is extendable)
 
