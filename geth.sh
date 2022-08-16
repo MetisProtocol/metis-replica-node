@@ -2,7 +2,7 @@
 set -eou
 
 RETRIES=${RETRIES:-40}
-VERBOSITY=${VERBOSITY:-6}
+VERBOSITY=${VERBOSITY:-3}
 
 if [ -z "$DATADIR" ]; then
     echo "Must pass DATADIR"
@@ -29,15 +29,14 @@ fi
 # If it exists, assume it's correct and skip geth init step
 GETH_CHAINDATA_DIR=$DATADIR/geth/chaindata
 
-if [ -d "$GETH_CHAINDATA_DIR" ]; then
-    echo "$GETH_CHAINDATA_DIR existing, skipping geth init"
-else
-    echo "$GETH_CHAINDATA_DIR missing, running geth init"
-    echo "Retrieving genesis file $L2GETH_GENESIS_URL"
-    TEMP_DIR=$(mktemp -d)
-    wget -O "$TEMP_DIR"/genesis.json "$L2GETH_GENESIS_URL"
-    geth init --datadir=/"$DATADIR" "$TEMP_DIR"/genesis.json
-fi
+echo "$GETH_CHAINDATA_DIR missing, running geth init"
+echo "Retrieving genesis file $L2GETH_GENESIS_URL"
+TEMP_DIR=$(mktemp -d)
+wget -O "$TEMP_DIR"/genesis.json "$L2GETH_GENESIS_URL"
+geth init --datadir=/"$DATADIR" "$TEMP_DIR"/genesis.json
+
+# Delete temp dir
+rm -rf $TEMP_DIR
 
 # Check for an existing keystore folder.
 # If it exists, assume it's correct and skip geth acount import step
