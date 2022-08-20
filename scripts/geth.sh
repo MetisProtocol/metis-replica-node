@@ -25,11 +25,7 @@ if [[ -z $BLOCK_SIGNER_ADDRESS ]]; then
     exit 1
 fi
 
-# Check for an existing chaindata folder.
-# If it exists, assume it's correct and skip geth init step
-GETH_CHAINDATA_DIR=$DATADIR/geth/chaindata
-
-echo "$GETH_CHAINDATA_DIR missing, running geth init"
+echo "Running geth init"
 echo "Retrieving genesis file $L2GETH_GENESIS_URL"
 TEMP_DIR=$(mktemp -d)
 wget -O "$TEMP_DIR"/genesis.json "$L2GETH_GENESIS_URL"

@@ -3,12 +3,11 @@ version: "3"
 services:
   dtl:
     image: metisdao/mvm-andromeda:dtl@sha256:d0b7419f7443510a58d073403fc4add4657ba5b58d41e4c89e41bfbff86c571f
-    entrypoint: ./dtl.sh
     restart: unless-stopped
     stop_grace_period: 30s
     environment:
       URL: https://metis-us-east-2-mainnet-json.s3.us-east-2.amazonaws.com/addresses.json
-      DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT: CHANGE TO YOUR L1 RPC ENDPOINT
+      DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT: ${ETHEREUM_RPC_ENDPOINT:?Set Ethereum rpc endpint first}
       DATA_TRANSPORT_LAYER__L2_RPC_ENDPOINT: "https://andromeda.metis.io/?owner=1088"
       DATA_TRANSPORT_LAYER__SYNC_FROM_L1: "false"
       DATA_TRANSPORT_LAYER__SYNC_FROM_L2: "true"
@@ -32,14 +31,14 @@ services:
         max-file: "10"
 
   l2geth:
-    image: metisdao/mvm-andromeda:l2geth-replica@sha256:7d3bcf6d3a522add2605fe71eb7cfb4719f3f5965cafcc29616bad5644aeb764
+    image: metisdao/mvm-andromeda:l2geth-replica@sha256:358d6cc2d72ca1bf7ce046a16f9b39474caff0fbcee37ef93a464cf4bd9dc677
     entrypoint: sh ./geth.sh
     restart: unless-stopped
     stop_grace_period: 2m
     env_file:
       - ./geth.env
     environment:
-      ROLLUP_BACKEND: "l2"
+      ROLLUP_BACKEND: l2
       URL: https://metis-us-east-2-mainnet-json.s3.us-east-2.amazonaws.com/addresses.json
       L2GETH_GENESIS_URL: https://metis-us-east-2-mainnet-json.s3.us-east-2.amazonaws.com/state-dump.latest.json
       ROLLUP_CLIENT_HTTP: http://dtl:7878
@@ -49,7 +48,7 @@ services:
       EMERGENCY_FORK020222_NUMBER: 750000
     volumes:
       - $PWD/chaindata/l2geth:/root/.ethereum
-      - $PWD/geth.sh:/geth.sh
+      - $PWD/scripts:/scripts
     ports:
       - 8546:8546
       - 8545:8545
