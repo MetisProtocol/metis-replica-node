@@ -32,7 +32,7 @@ services:
 
   l2geth:
     image: metisdao/mvm-andromeda:l2geth-replica@sha256:358d6cc2d72ca1bf7ce046a16f9b39474caff0fbcee37ef93a464cf4bd9dc677
-    entrypoint: sh ./geth.sh
+    entrypoint: [ "sh", "/scripts/geth.sh" ]
     restart: unless-stopped
     stop_grace_period: 2m
     env_file:
