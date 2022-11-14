@@ -7,7 +7,7 @@ services:
     stop_grace_period: 30s
     environment:
       URL: https://metis-us-east-2-mainnet-json.s3.us-east-2.amazonaws.com/addresses.json
-      DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT: ${ETHEREUM_RPC_ENDPOINT:?Set Ethereum rpc endpint first}
+      DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT: ${ETHEREUM_RPC_ENDPOINT:?Set Ethereum rpc endpoint first}
       DATA_TRANSPORT_LAYER__L2_RPC_ENDPOINT: "https://andromeda.metis.io/?owner=1088"
       DATA_TRANSPORT_LAYER__SYNC_FROM_L1: "false"
       DATA_TRANSPORT_LAYER__SYNC_FROM_L2: "true"
