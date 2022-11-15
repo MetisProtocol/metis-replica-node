@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+  dtl:
+    image: metisdao/mvm-develop:goerli-dtl@sha256:a3e0f5cadead0a204b0fb1c55935865f052a55c29aa51edbfc85414d783834f5
+    restart: unless-stopped
+    stop_grace_period: 30s
+    environment:
+      URL: https://metis-us-east-2-goerli.s3.us-east-2.amazonaws.com/addresses.json
+      DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT: ${ETHEREUM_RPC_ENDPOINT:?Set Ethereum rpc endpoint first}
+      DATA_TRANSPORT_LAYER__L2_RPC_ENDPOINT: "https://goerli.gateway.metisdevops.link"
+      DATA_TRANSPORT_LAYER__SYNC_FROM_L1: "false"
+      DATA_TRANSPORT_LAYER__SYNC_FROM_L2: "true"
+      DATA_TRANSPORT_LAYER__L2_CHAIN_ID: "599"
+      DATA_TRANSPORT_LAYER__DB_PATH: /data/db
+      DATA_TRANSPORT_LAYER__SERVER_PORT: "7878"
+      DATA_TRANSPORT_LAYER__TRANSACTIONS_PER_POLLING_INTERVAL: "1000"
+      DATA_TRANSPORT_LAYER__CONFIRMATIONS: "0"
+      DATA_TRANSPORT_LAYER__POLLING_INTERVAL: "1000"
+      DATA_TRANSPORT_LAYER__LOGS_PER_POLLING_INTERVAL: "1000"
+      DATA_TRANSPORT_LAYER__DANGEROUSLY_CATCH_ALL_ERRORS: "true"
+      DATA_TRANSPORT_LAYER__SERVER_HOSTNAME: "0.0.0.0"
+    expose:
+      - 7878
+    volumes:
+      - $PWD/chaindata/dtl:/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "2m"
+        max-file: "10"
+
+  l2geth:
+    image: metisdao/mvm-develop:goerli-l2geth@sha256:d690c8fbca98c36434adc1d508903e269374c23819418fa5c273226dbc3c1ef1
+    entrypoint: [ "sh", "/scripts/geth.sh" ]
+    restart: unless-stopped
+    stop_grace_period: 2m
+    env_file:
+      - ./geth.env
+    environment:
+      ROLLUP_BACKEND: l2
+      URL: https://metis-us-east-2-goerli.s3.us-east-2.amazonaws.com/addresses.json
+      L2GETH_GENESIS_URL: https://metis-us-east-2-goerli.s3.us-east-2.amazonaws.com/state-dump.latest.json
+      ROLLUP_CLIENT_HTTP: http://dtl:7878
+      L2_URL: https://goerli.gateway.metisdevops.link
+      SEQUENCER_CLIENT_HTTP: https://goerli.gateway.metisdevops.link
+      ETH1_CTC_DEPLOYMENT_HEIGHT: 7489400
+      EMERGENCY_FORK020222_NUMBER: 0
+    volumes:
+      - $PWD/chaindata/l2geth:/root/.ethereum
+      - $PWD/scripts:/scripts
+    ports:
+      - 8546:8546
+      - 8545:8545
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "2m"
+        max-file: "10"

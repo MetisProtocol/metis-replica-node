@@ -32,6 +32,8 @@ git clone https://github.com/ericlee42/metis-replica-node
 cp docker-compose-mainnet.yml docker-compose.yml
 ```
 
+if you want to use testnet, you can use `docker-compose-testnet.yml` file.
+
 you should change `DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT` environment variable in the `docker-compose.yml`, it's your Ethereum mainnnet rpc endpoint(You can use [infura](https://infura.io/) public serivce).
 
 **Optional: change volumes**
@@ -76,13 +78,13 @@ If you get this log below, it means the start-up was successful
 
 ```console
 $ docker-compose logs --tail=10 l2geth
-DEBUG[12-29|07:37:22.445] Allowed origin(s) for WS RPC interface [*] 
+DEBUG[12-29|07:37:22.445] Allowed origin(s) for WS RPC interface [*]
 INFO [12-29|07:37:22.445] WebSocket endpoint opened                url=ws://[::]:8546
 INFO [12-29|07:37:23.259] Unlocked account                         address=0x00000398232E2064F896018496b4b44b3D62751F
 INFO [12-29|07:37:23.259] Transaction pool price threshold updated price=0
 INFO [12-29|07:37:23.259] Transaction pool price threshold updated price=0
-INFO [12-29|07:37:23.259] Initializing Sync Service 
-INFO [12-29|07:37:23.260] Sealing paused, waiting for transactions 
+INFO [12-29|07:37:23.259] Initializing Sync Service
+INFO [12-29|07:37:23.260] Sealing paused, waiting for transactions
 INFO [12-29|07:37:23.260] Set L2 Gas Price                         gasprice=40000000000
 INFO [12-29|07:37:23.261] Set L1 Gas Price                         gasprice=150000000000
 INFO [12-29|07:37:23.261] Set batch overhead                       overhead=2750
@@ -106,7 +108,7 @@ $ curl --data-raw '{
     "jsonrpc":"2.0",
     "method":"eth_chainId",
     "params":[]
-}' -H 'Content-Type: application/json'  'http://localhost:8545' 
+}' -H 'Content-Type: application/json'  'http://localhost:8545'
 {
     "jsonrpc":"2.0",
     "id":"1",
@@ -121,7 +123,7 @@ $ curl --data-raw '{
         "latest",
         false
     ]
-}' -H 'Content-Type: application/json'  'http://localhost:8545' 
+}' -H 'Content-Type: application/json'  'http://localhost:8545'
 {
     "jsonrpc":"2.0",
     "id":"1",
