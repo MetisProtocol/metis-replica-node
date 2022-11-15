@@ -31,7 +31,7 @@ services:
         max-file: "10"
 
   l2geth:
-    image: metisdao/mvm-develop:goerli-l2geth@sha256:d690c8fbca98c36434adc1d508903e269374c23819418fa5c273226dbc3c1ef1
+    image: metisdao/l2geth:ff2ab55cd8d95f627ec43adfd268ce2599544190
     entrypoint: [ "sh", "/scripts/geth.sh" ]
     restart: unless-stopped
     stop_grace_period: 2m
