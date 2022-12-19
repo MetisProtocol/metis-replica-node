@@ -31,7 +31,7 @@ services:
         max-file: "10"
 
   l2geth:
-    image: metisdao/l2geth:ff2ab55cd8d95f627ec43adfd268ce2599544190
+    image: metisdao/l2geth:0a1fea15c6bf020f7b3a3b4d08295524f51c683d
     entrypoint: [ "sh", "/scripts/geth.sh" ]
     restart: unless-stopped
     stop_grace_period: 2m
