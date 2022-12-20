@@ -46,6 +46,8 @@ services:
       SEQUENCER_CLIENT_HTTP: https://andromeda.metis.io/?owner=1088
       ETH1_CTC_DEPLOYMENT_HEIGHT: 13626959
       EMERGENCY_FORK020222_NUMBER: 750000
+      CHAIN_ID: 1088
+      NETWORK_ID: 1088
     volumes:
       - $PWD/chaindata/l2geth:/root/.ethereum
       - $PWD/scripts:/scripts
