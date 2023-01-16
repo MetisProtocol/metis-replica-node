@@ -47,6 +47,7 @@ services:
       L2_URL: https://goerli.gateway.metisdevops.link
       SEQUENCER_CLIENT_HTTP: https://goerli.gateway.metisdevops.link
       ETH1_CTC_DEPLOYMENT_HEIGHT: 7489400
+      TARGET_GAS_LIMIT: 11000000
     volumes:
       - $PWD/chaindata/l2geth:/root/.ethereum
       - $PWD/scripts:/scripts

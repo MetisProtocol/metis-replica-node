@@ -47,6 +47,7 @@ services:
       ETH1_CTC_DEPLOYMENT_HEIGHT: 13626959
       CHAIN_ID: 1088
       NETWORK_ID: 1088
+      TARGET_GAS_LIMIT: 1100000000
     volumes:
       - $PWD/chaindata/l2geth:/root/.ethereum
       - $PWD/scripts:/scripts
