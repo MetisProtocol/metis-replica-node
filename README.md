@@ -68,6 +68,21 @@ $ docker-compose logs --tail=10 dtl
 {"level":30,"time":1640763283225,"fromBlock":0,"toBlock":1001,"msg":"Synchronizing unconfirmed transactions from Layer 2 (Metis)"}
 ```
 
+## Enable graphql service
+
+```yaml
+  l2geth:
+    entrypoint: [ "sh", "/scripts/geth.sh" ]
+    command:
+      - --graphql
+      - --graphql.addr=0.0.0.0
+      - --graphql.port=8547
+      - --graphql.corsdomain=*
+      - --graphql.vhosts=*
+    ports:
+      - 8547:8547
+```
+
 ## start the l2geth service
 
 ```sh
