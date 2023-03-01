@@ -82,6 +82,15 @@ $ docker-compose logs --tail=10 dtl
     ports:
       - 8547:8547
 ```
+You can follow these steps to place the above code in docker-compose.yml:
+
+1. Clone the metis-replica-node repository to your local machine.
+2. Navigate to the root directory of the repository.
+3. Open the docker-compose.yml file in a text editor.
+4. Find the l2geth section in the file, which should be under the services section.
+5. Place the code block you provided under the l2geth section. Make sure to align it with the entrypoint and command sections.
+6. Save the docker-compose.yml file.
+
 
 ## start the l2geth service
 
