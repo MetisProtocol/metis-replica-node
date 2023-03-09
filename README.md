@@ -68,30 +68,6 @@ $ docker-compose logs --tail=10 dtl
 {"level":30,"time":1640763283225,"fromBlock":0,"toBlock":1001,"msg":"Synchronizing unconfirmed transactions from Layer 2 (Metis)"}
 ```
 
-## Enable graphql service
-
-```yaml
-  l2geth:
-    entrypoint: [ "sh", "/scripts/geth.sh" ]
-    command:
-      - --graphql
-      - --graphql.addr=0.0.0.0
-      - --graphql.port=8547
-      - --graphql.corsdomain=*
-      - --graphql.vhosts=*
-    ports:
-      - 8547:8547
-```
-You can follow these steps to place the above code in docker-compose.yml:
-
-1. Clone the metis-replica-node repository to your local machine.
-2. Navigate to the root directory of the repository.
-3. Open the docker-compose.yml file in a text editor.
-4. Find the l2geth section in the file, which should be under the services section.
-5. Place the code block you provided under the l2geth section. Make sure to align it with the entrypoint and command sections.
-6. Save the docker-compose.yml file.
-
-
 ## start the l2geth service
 
 ```sh
@@ -184,3 +160,26 @@ $ curl --data-raw '{
     ]
 }' -H 'Content-Type: application/json' 'http://localhost:8545'
 ```
+
+## Enable graphql service
+
+```yaml
+  l2geth:
+    entrypoint: [ "sh", "/scripts/geth.sh" ]
+    command:
+      - --graphql
+      - --graphql.addr=0.0.0.0
+      - --graphql.port=8547
+      - --graphql.corsdomain=*
+      - --graphql.vhosts=*
+    ports:
+      - 8547:8547
+```
+You can follow these steps to place the above code in docker-compose.yml:
+
+1. Clone the metis-replica-node repository to your local machine.
+2. Navigate to the root directory of the repository.
+3. Open the docker-compose.yml file in a text editor.
+4. Find the l2geth section in the file, which should be under the services section.
+5. Place the code block you provided under the l2geth section. Make sure to align it with the entrypoint and command sections.
+6. Save the docker-compose.yml file.
