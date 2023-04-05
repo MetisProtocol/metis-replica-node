@@ -23,7 +23,7 @@ services:
     expose:
       - 7878
     volumes:
-      - $PWD/chaindata/dtl:/data
+      - ./chaindata/dtl:/data
     logging:
       driver: "json-file"
       options:
@@ -49,8 +49,8 @@ services:
       ETH1_CTC_DEPLOYMENT_HEIGHT: 7489400
       TARGET_GAS_LIMIT: 9000000
     volumes:
-      - $PWD/chaindata/l2geth:/root/.ethereum
-      - $PWD/scripts:/scripts
+      - ./chaindata/l2geth:/root/.ethereum
+      - ./scripts:/scripts
     ports:
       - 8546:8546
       - 8545:8545
