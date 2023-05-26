@@ -4,7 +4,7 @@ You may not need this, you can use our [public rpc](https://docs.metis.io/dev/ge
 
 It retrives data from L2 nodes, and no blocks lag behind.
 
-# Required
+# Prerequsite
 
 - Linux(x86_64)
 - docker
@@ -16,7 +16,7 @@ RAM: 8 GB
 
 CPU: 4 core(x86_64)
 
-Storage: Minimum 100GB SSD (make sure it is extendable)
+Storage: Minimum 200GB SSD (make sure it is extendable)
 
 # Setup a replica node
 
