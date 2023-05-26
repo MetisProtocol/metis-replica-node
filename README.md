@@ -4,7 +4,7 @@ You may not need this, you can use our [public rpc](https://docs.metis.io/dev/ge
 
 It retrives data from L2 nodes, and no blocks lag behind.
 
-# Prerequsite
+# Prerequisite
 
 - Linux(x86_64)
 - docker
