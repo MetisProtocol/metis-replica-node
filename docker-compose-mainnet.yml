@@ -2,7 +2,7 @@ version: "3"
 
 services:
   dtl:
-    image: metisdao/mvm-andromeda:dtl@sha256:d0b7419f7443510a58d073403fc4add4657ba5b58d41e4c89e41bfbff86c571f
+    image: metisdao/data-transport-layer:20230713210754
     restart: unless-stopped
     stop_grace_period: 30s
     environment:
@@ -31,14 +31,13 @@ services:
         max-file: "10"
 
   l2geth:
-    image: metisdao/l2geth:d9a74998e8f711be67ce9bd9b0d732b0243b7c33
+    image: metisdao/l2geth:20230713220744
     entrypoint: [ "sh", "/scripts/geth.sh" ]
     restart: unless-stopped
     stop_grace_period: 2m
     env_file:
       - ./geth.env
     environment:
-      ROLLUP_BACKEND: l2
       URL: https://metis-us-east-2-mainnet-json.s3.us-east-2.amazonaws.com/addresses.json
       L2GETH_GENESIS_URL: https://metis-us-east-2-mainnet-json.s3.us-east-2.amazonaws.com/state-dump.latest.json
       ROLLUP_CLIENT_HTTP: http://dtl:7878

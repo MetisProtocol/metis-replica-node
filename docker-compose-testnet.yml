@@ -2,7 +2,7 @@ version: "3"
 
 services:
   dtl:
-    image: metisdao/mvm-develop:goerli-dtl@sha256:a3e0f5cadead0a204b0fb1c55935865f052a55c29aa51edbfc85414d783834f5
+    image: metisdao/data-transport-layer:20230713210754
     restart: unless-stopped
     stop_grace_period: 30s
     environment:
@@ -31,7 +31,7 @@ services:
         max-file: "10"
 
   l2geth:
-    image: metisdao/l2geth:d9a74998e8f711be67ce9bd9b0d732b0243b7c33
+    image: metisdao/l2geth:20230713220744
     entrypoint: [ "sh", "/scripts/geth.sh" ]
     restart: unless-stopped
     stop_grace_period: 2m
@@ -40,7 +40,6 @@ services:
     environment:
       CHAIN_ID: 599
       NETWORK_ID: 599
-      ROLLUP_BACKEND: l2
       URL: https://metis-us-east-2-goerli.s3.us-east-2.amazonaws.com/addresses.json
       L2GETH_GENESIS_URL: https://metis-us-east-2-goerli.s3.us-east-2.amazonaws.com/state-dump.latest.json
       ROLLUP_CLIENT_HTTP: http://dtl:7878
