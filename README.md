@@ -1,7 +1,5 @@
 # Metis Andromeda Replica
 
-You may not need this, you can use our [public rpc](https://docs.metis.io/dev/get-started/metis-connection-details).
-
 It retrives data from L2 nodes, and no blocks lag behind.
 
 # Prerequisite
@@ -26,15 +24,13 @@ Storage: Minimum 200GB SSD (make sure it is extendable)
 git clone https://github.com/ericlee42/metis-replica-node
 ```
 
-## Change config
+## update configuration
 
 ```
 cp docker-compose-mainnet.yml docker-compose.yml
 ```
 
 if you want to use testnet, you can use `docker-compose-testnet.yml` file.
-
-you should change `DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT` environment variable in the `docker-compose.yml`, it's your Ethereum mainnnet rpc endpoint(You can use [infura](https://infura.io/) public serivce).
 
 **Optional: change volumes**
 
@@ -164,17 +160,18 @@ $ curl --data-raw '{
 ## Enable graphql service
 
 ```yaml
-  l2geth:
-    entrypoint: [ "sh", "/scripts/geth.sh" ]
-    command:
-      - --graphql
-      - --graphql.addr=0.0.0.0
-      - --graphql.port=8547
-      - --graphql.corsdomain=*
-      - --graphql.vhosts=*
-    ports:
-      - 8547:8547
+l2geth:
+  entrypoint: ["sh", "/scripts/geth.sh"]
+  command:
+    - --graphql
+    - --graphql.addr=0.0.0.0
+    - --graphql.port=8547
+    - --graphql.corsdomain=*
+    - --graphql.vhosts=*
+  ports:
+    - 8547:8547
 ```
+
 You can follow these steps to place the above code in docker-compose.yml:
 
 1. Clone the metis-replica-node repository to your local machine.

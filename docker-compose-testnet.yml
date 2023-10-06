@@ -6,8 +6,8 @@ services:
     restart: unless-stopped
     stop_grace_period: 30s
     environment:
-      URL: https://metis-us-east-2-goerli.s3.us-east-2.amazonaws.com/addresses.json
-      DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT: ${ETHEREUM_RPC_ENDPOINT:?Set Ethereum rpc endpoint first}
+      URL: https://ericlee42.github.io/metis-networks/goerli-testnet/addresses.json
+      DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT: "https://ethereum-goerli.publicnode.com"
       DATA_TRANSPORT_LAYER__L2_RPC_ENDPOINT: "https://goerli.gateway.metisdevops.link"
       DATA_TRANSPORT_LAYER__SYNC_FROM_L1: "false"
       DATA_TRANSPORT_LAYER__SYNC_FROM_L2: "true"
@@ -24,6 +24,11 @@ services:
       - 7878
     volumes:
       - ./chaindata/dtl:/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl http://127.0.0.1:7878"]
+      interval: 5s
+      timeout: 3s
+      retries: 6
     logging:
       driver: "json-file"
       options:
@@ -32,16 +37,19 @@ services:
 
   l2geth:
     image: metisdao/l2geth:20230713220744
-    entrypoint: [ "sh", "/scripts/geth.sh" ]
+    entrypoint: ["sh", "/scripts/geth.sh"]
     restart: unless-stopped
     stop_grace_period: 2m
     env_file:
       - ./geth.env
+    depends_on:
+      dtl:
+        condition: service_healthy
     environment:
       CHAIN_ID: 599
       NETWORK_ID: 599
-      URL: https://metis-us-east-2-goerli.s3.us-east-2.amazonaws.com/addresses.json
-      L2GETH_GENESIS_URL: https://metis-us-east-2-goerli.s3.us-east-2.amazonaws.com/state-dump.latest.json
+      URL: https://ericlee42.github.io/metis-networks/goerli-testnet/addresses.json
+      L2GETH_GENESIS_URL: https://ericlee42.github.io/metis-networks/goerli-testnet/state-dump.latest.json
       ROLLUP_CLIENT_HTTP: http://dtl:7878
       L2_URL: https://goerli.gateway.metisdevops.link
       SEQUENCER_CLIENT_HTTP: https://goerli.gateway.metisdevops.link
