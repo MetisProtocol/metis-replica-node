@@ -1,4 +1,4 @@
-# Metis Andromeda Replica
+# Metis Replica Node
 
 It retrives data from L2 nodes, and no blocks lag behind.
 
