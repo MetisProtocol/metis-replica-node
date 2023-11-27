@@ -8,13 +8,17 @@ It retrives data from L2 nodes, and no blocks lag behind.
 - docker
 - docker-compose v2
 
+FYI, check out https://docs.docker.com/engine/install/ if you don't know how to install docker.
+
 ## Recommended hardware specification
 
 RAM: 8 GB
 
 CPU: 4 core(x86_64)
 
-Storage: Minimum 200GB SSD (make sure it is extendable)
+Storage:
+
+Minimum 50GB for a full node and 250GB for an archive node (make sure it is extendable)
 
 # Setup a replica node
 
@@ -30,7 +34,18 @@ git clone https://github.com/ericlee42/metis-replica-node
 cp docker-compose-mainnet.yml docker-compose.yml
 ```
 
-if you want to use testnet, you can use `docker-compose-testnet.yml` file.
+if you want to use testnet, use `docker-compose-testnet.yml` file instead.
+
+if you need an archive node, you can add following environment variables to l2geth service.
+
+```yaml
+l2geth:
+  environment:
+    GCMODE: archive
+    # enable debug api if you need it
+    RPC_API: eth,net,web3,debug
+    WS_API: eth,net,web3,debug
+```
 
 **Optional: change volumes**
 
