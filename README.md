@@ -12,9 +12,9 @@ FYI, check out https://docs.docker.com/engine/install/ if you don't know how to 
 
 ## Recommended hardware specification
 
-RAM: 8 GB
+RAM: 8 GB (4 GB at least)
 
-CPU: 4 core(x86_64)
+CPU: 4 cores (2 cores at least)
 
 Storage:
 
@@ -22,19 +22,23 @@ Minimum 50GB for a full node and 250GB for an archive node (make sure it is exte
 
 # Setup a replica node
 
-## clone the repository
+## Clone the repository
 
 ```
 git clone https://github.com/ericlee42/metis-replica-node
 ```
 
-## update configuration
+## Update configuration
 
 ```
 cp docker-compose-mainnet.yml docker-compose.yml
 ```
 
 if you want to use testnet, use `docker-compose-testnet.yml` file instead.
+
+Most configurations can be set through environment variables, please refer to [config.md](./config.md) for details.
+
+**Optional: Archive mode**
 
 if you need an archive node, you can add following environment variables to l2geth service.
 
@@ -47,67 +51,56 @@ l2geth:
     WS_API: eth,net,web3,debug
 ```
 
+**Optional: graphql**
+
+if you need the graphql api, you can add the following to l2geth.
+
+```yaml
+# redacted
+l2geth:
+  entrypoint: ["sh", "/scripts/geth.sh"]
+  command:
+    - --graphql
+    - --graphql.addr=0.0.0.0
+    - --graphql.port=8547
+    - --graphql.corsdomain=*
+    - --graphql.vhosts=*
+  ports:
+    - 8547:8547
+```
+
 **Optional: change volumes**
 
-By default, replica node creates a `chaindata` directory in the current directory. You can change the volumes configuration in your compose file to customize the storage directory.
+By default, replica node creates a `chaindata` directory in the current directory.
 
-## start the dtl service
+You can change the volumes configuration in your compose file to customize the storage directory.
 
-```
-docker-compose up -d dtl
-```
+```yaml
+# redacted
+services:
+  dtl:
+    volumes:
+      - ./chaindata/dtl:/data # the volume mapping for dtl
 
-If you get this log below, it means the start-up was successful
-
-```conosle
-$ docker-compose logs --tail=10 dtl
-{"level":30,"time":1640763281396,"msg":"Service L1_Data_Transport_Service is starting..."}
-{"level":30,"time":1640763281400,"msg":"Service L1_Data_Transport_Service is initializing..."}
-{"level":30,"time":1640763281400,"msg":"Initializing L1 Data Transport Service..."}
-{"level":30,"time":1640763281470,"msg":"Service L1_Transport_Server is initializing..."}
-{"level":30,"time":1640763281486,"defaultBackend":"l1","l1GasPriceBackend":"l1","msg":"HTTP Server Options"}
-{"level":30,"time":1640763281487,"url":"YOUR_L1_RPC_ENDPOINT","msg":"HTTP Server L1 RPC Provider initialized"}
-{"level":30,"time":1640763281487,"url":"https://andromeda.metis.io/?owner=1088","msg":"HTTP Server L2 RPC Provider initialized"}
-{"level":30,"time":1640763281487,"msg":"Service L1_Transport_Server has initialized."}
-{"level":30,"time":1640763281488,"msg":"Service L2_Ingestion_Service is initializing..."}
-{"level":30,"time":1640763281489,"msg":"Service L2_Ingestion_Service has initialized."}
-{"level":30,"time":1640763281490,"msg":"Service L1_Data_Transport_Service has initialized."}
-{"level":30,"time":1640763281490,"msg":"Service L1_Transport_Server is starting..."}
-{"level":30,"time":1640763281491,"msg":"Service L2_Ingestion_Service is starting..."}
-{"level":30,"time":1640763281496,"host":"0.0.0.0","port":7878,"msg":"Server started and listening"}
-{"level":30,"time":1640763281499,"msg":"Service L1_Transport_Server can stop now"}
-{"level":30,"time":1640763283225,"fromBlock":0,"toBlock":1001,"msg":"Synchronizing unconfirmed transactions from Layer 2 (Metis)"}
+  l2geth:
+    volumes:
+      - ./chaindata/l2geth:/root/.ethereum # the volume mapping for l2geth
+      - ./scripts:/scripts
 ```
 
-## start the l2geth service
-
-```sh
-docker-compose up -d l2geth
-```
-
-If you get this log below, it means the start-up was successful
+## Start the services
 
 ```console
-$ docker-compose logs --tail=10 l2geth
-DEBUG[12-29|07:37:22.445] Allowed origin(s) for WS RPC interface [*]
-INFO [12-29|07:37:22.445] WebSocket endpoint opened                url=ws://[::]:8546
-INFO [12-29|07:37:23.259] Unlocked account                         address=0x00000398232E2064F896018496b4b44b3D62751F
-INFO [12-29|07:37:23.259] Transaction pool price threshold updated price=0
-INFO [12-29|07:37:23.259] Transaction pool price threshold updated price=0
-INFO [12-29|07:37:23.259] Initializing Sync Service
-INFO [12-29|07:37:23.260] Sealing paused, waiting for transactions
-INFO [12-29|07:37:23.260] Set L2 Gas Price                         gasprice=40000000000
-INFO [12-29|07:37:23.261] Set L1 Gas Price                         gasprice=150000000000
-INFO [12-29|07:37:23.261] Set batch overhead                       overhead=2750
-INFO [12-29|07:37:23.261] Set scalar                               scalar=40
-INFO [12-29|07:37:23.261] Starting Verifier Loop                   poll-interval=15s timestamp-refresh-threshold=5m0s
-INFO [12-29|07:37:23.391] Syncing transaction range                start=0 end=89000 backend=l2
-DEBUG[12-29|07:37:24.528] Couldn't add port mapping                proto=tcp extport=30303 intport=30303 interface="UPnP or NAT-PMP" err="no UPnP or NAT-PMP router discovered"
-INFO [12-29|07:37:38.274] Syncing transaction range                start=0 end=91100 backend=l2
-INFO [12-29|07:37:53.248] Syncing transaction range                start=0 end=92923 backend=l2
-INFO [12-29|07:38:08.247] Syncing transaction range                start=0 end=92923 backend=l2
-INFO [12-29|07:38:23.231] Syncing transaction range                start=0 end=92924 backend=l2
-INFO [12-29|07:38:38.224] Syncing transaction range                start=0 end=92926 backend=l2
+$ docker-compose up -d
+```
+
+It means the start-up was successful if you see the both services are healthy.
+
+```console
+$ docker-compose ps
+NAME                          IMAGE                                          COMMAND                 SERVICE   CREATED              STATUS                        PORTS
+metis-replica-node-dtl-1      metisdao/data-transport-layer:20230713210754   "./dtl.sh"              dtl       About a minute ago   Up About a minute (healthy)   7878/tcp
+metis-replica-node-l2geth-1   metisdao/l2geth:20230713220744                 "sh /scripts/geth.sh"   l2geth    About a minute ago   Up 57 seconds (healthy)       0.0.0.0:8545-8546->8545-8546/tcp, 8547/tcp
 ```
 
 ## RPC example
@@ -171,27 +164,3 @@ $ curl --data-raw '{
     ]
 }' -H 'Content-Type: application/json' 'http://localhost:8545'
 ```
-
-## Enable graphql service
-
-```yaml
-l2geth:
-  entrypoint: ["sh", "/scripts/geth.sh"]
-  command:
-    - --graphql
-    - --graphql.addr=0.0.0.0
-    - --graphql.port=8547
-    - --graphql.corsdomain=*
-    - --graphql.vhosts=*
-  ports:
-    - 8547:8547
-```
-
-You can follow these steps to place the above code in docker-compose.yml:
-
-1. Clone the metis-replica-node repository to your local machine.
-2. Navigate to the root directory of the repository.
-3. Open the docker-compose.yml file in a text editor.
-4. Find the l2geth section in the file, which should be under the services section.
-5. Place the code block you provided under the l2geth section. Make sure to align it with the entrypoint and command sections.
-6. Save the docker-compose.yml file.
