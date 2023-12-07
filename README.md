@@ -103,64 +103,17 @@ metis-replica-node-dtl-1      metisdao/data-transport-layer:20230713210754   "./
 metis-replica-node-l2geth-1   metisdao/l2geth:20230713220744                 "sh /scripts/geth.sh"   l2geth    About a minute ago   Up 57 seconds (healthy)       0.0.0.0:8545-8546->8545-8546/tcp, 8547/tcp
 ```
 
-## RPC example
+## Check syncing status
+
+You can't use `eth_syncing` to check if the node is fully synchronized.
+
+You can compare the block number of the local l2geth with the block number of our public node to determine whether the local service has been synchronized.
+
+If they are equal, it means that your l2geth has synchronized.
 
 ```console
-$ # get chain id
-$ curl --data-raw '{
-    "id":"1",
-    "jsonrpc":"2.0",
-    "method":"eth_chainId",
-    "params":[]
-}' -H 'Content-Type: application/json'  'http://localhost:8545'
-{
-    "jsonrpc":"2.0",
-    "id":"1",
-    "result":"0x440"
-}
-$ # get block by block number
-$ curl --data-raw '{
-    "id":"1",
-    "jsonrpc":"2.0",
-    "method":"eth_getBlockByNumber",
-    "params":[
-        "latest",
-        false
-    ]
-}' -H 'Content-Type: application/json'  'http://localhost:8545'
-{
-    "jsonrpc":"2.0",
-    "id":"1",
-    "result":{
-        "difficulty":"0x1",
-        "extraData":"0x000000000000000000000000000000000000000000000000000000000000000000000398232e2064f896018496b4b44b3d62751f0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-        "gasLimit":"0x4190ab00",
-        "gasUsed":"0x0",
-        "hash":"0x9e3354e081a54a57190bdb8948a597c840ea5dd496b0322864d4585f4a716892",
-        "logsBloom":"0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-        "miner":"0x0000000000000000000000000000000000000000",
-        "mixHash":"0x0000000000000000000000000000000000000000000000000000000000000000",
-        "nonce":"0x0000000000000000",
-        "number":"0x0",
-        "parentHash":"0x0000000000000000000000000000000000000000000000000000000000000000",
-        "receiptsRoot":"0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-        "sha3Uncles":"0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",
-        "size":"0x26f",
-        "stateRoot":"0x86c9b145f467994ffb6b07274d02bf7bb302a7caac27a97823e1c9f456e3c1e3",
-        "timestamp":"0x0",
-        "totalDifficulty":"0x1",
-        "transactions":[],
-        "transactionsRoot":"0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-        "uncles":[]
-    }
-}
-$ # Send a raw trasaction
-$ curl --data-raw '{
-    "id":"1",
-    "jsonrpc":"2.0",
-    "method":"eth_sendRawTransaction",
-    "params":[
-        "0xf86f81eb8503f5476a00825208940f8b20ed4eecf06eee385f837c94966ba5d800318819ac8532c2790000808208a3a0cde205bfcce3c47687362fbbf3a8c83ecb80c419b4fa751334e17db0a06a4010a0459c4b067ca808046fa8f61211d4876eec9394abcfeeb8e73eb4193f15368acf"
-    ]
-}' -H 'Content-Type: application/json' 'http://localhost:8545'
+$ curl -sS 'http://localhost:8545' --data-raw '{"id":"1","jsonrpc":"2.0","method":"eth_blockNumber","params":[]}' -H 'Content-Type: application/json'  | jq -r '.result' | xargs printf '%d\n'
+26510
+$ curl -sS 'https://andromeda.metis.io' --data-raw '{"id":"1","jsonrpc":"2.0","method":"eth_blockNumber","params":[]}' -H 'Content-Type: application/json'  | jq -r '.result' | xargs printf '%d\n'
+9612875
 ```
