@@ -45,6 +45,11 @@ services:
     depends_on:
       dtl:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl http://127.0.0.1:8545"]
+      interval: 5s
+      timeout: 3s
+      retries: 6
     environment:
       CHAIN_ID: 599
       NETWORK_ID: 599

@@ -45,6 +45,11 @@ services:
     depends_on:
       dtl:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl http://127.0.0.1:8545"]
+      interval: 5s
+      timeout: 3s
+      retries: 6
     environment:
       URL: https://ericlee42.github.io/metis-networks/mainnet/addresses.json
       L2GETH_GENESIS_URL: https://ericlee42.github.io/metis-networks/mainnet/state-dump.latest.json
