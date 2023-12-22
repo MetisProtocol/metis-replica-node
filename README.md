@@ -6,7 +6,6 @@ It retrives data from L2 nodes, and no blocks lag behind.
 
 - Linux(x86_64)
 - docker
-- docker-compose v2
 
 FYI, check out https://docs.docker.com/engine/install/ if you don't know how to install docker.
 
@@ -91,13 +90,13 @@ services:
 ## Start the services
 
 ```console
-$ docker-compose up -d
+$ docker compose up -d
 ```
 
 It means the start-up was successful if you see the both services are healthy.
 
 ```console
-$ docker-compose ps
+$ docker compose ps
 NAME                          IMAGE                                          COMMAND                 SERVICE   CREATED              STATUS                        PORTS
 metis-replica-node-dtl-1      metisdao/data-transport-layer:20230713210754   "./dtl.sh"              dtl       About a minute ago   Up About a minute (healthy)   7878/tcp
 metis-replica-node-l2geth-1   metisdao/l2geth:20230713220744                 "sh /scripts/geth.sh"   l2geth    About a minute ago   Up 57 seconds (healthy)       0.0.0.0:8545-8546->8545-8546/tcp, 8547/tcp
@@ -109,7 +108,7 @@ You can't use `eth_syncing` to check if the node is fully synchronized.
 
 You can compare the block number of the local l2geth with the block number of our public node to determine whether the local service has been synchronized.
 
-If they are equal, it means that your l2geth has synchronized.
+If they are equal, which means that your l2geth has synchronized.
 
 ```console
 $ curl -sS 'http://localhost:8545' --data-raw '{"id":"1","jsonrpc":"2.0","method":"eth_blockNumber","params":[]}' -H 'Content-Type: application/json'  | jq -r '.result' | xargs printf '%d\n'
