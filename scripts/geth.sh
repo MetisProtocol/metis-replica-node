@@ -54,16 +54,13 @@ fi
 
 echo "l2geth setup complete"
 
-# start the geth peer node
-echo "Starting Geth peer node"
+echo "Starting replica node"
 exec geth \
     --datadir "$DATADIR" \
-    --verbosity="$VERBOSITY" \
+    --verbosity "$VERBOSITY" \
     --password "$DATADIR/password" \
     --allow-insecure-unlock \
     --unlock $BLOCK_SIGNER_ADDRESS \
     --mine \
     --miner.etherbase $BLOCK_SIGNER_ADDRESS \
-    --syncmode full \
-    --gcmode archive \
     "$@"
