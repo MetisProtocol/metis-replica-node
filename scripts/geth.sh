@@ -47,7 +47,7 @@ else
     echo -n "$BLOCK_SIGNER_PRIVATE_KEY_PASSWORD" >"$DATADIR"/password
     echo -n "$BLOCK_SIGNER_PRIVATE_KEY" >"$DATADIR"/block-signer-key
     geth account import \
-        --datadir=/"$DATADIR" \
+        --datadir "$DATADIR" \
         --password "$DATADIR"/password \
         "$DATADIR"/block-signer-key
 fi
