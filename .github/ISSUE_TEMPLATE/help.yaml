@@ -1,0 +1,42 @@
+name: "deployment-help"
+description: ask for deployment help
+body:
+  - type: input
+    id: revision
+    attributes:
+      label: "What Git revision / release tag are you using?"
+    validations:
+      required: true
+
+  - type: input
+    id: hardware-specification
+    attributes:
+      label: "What is your hardware specification?"
+    validations:
+      required: true
+
+  - type: input
+    id: docker-revision
+    attributes:
+      label: "What Docker version are you using?"
+    validations:
+      required: true
+
+  - type: input
+    id: os-revision
+    attributes:
+      label: "What Linux distribution are you using?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Describe what the problem is?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "If applicable, what are the logs from the server around the occurence of the problem?"
