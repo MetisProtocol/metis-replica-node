@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     stop_grace_period: 30s
     environment:
-      URL: https://ericlee42.github.io/metis-networks/goerli-testnet/addresses.json
+      URL: https://metisprotocol.github.io/metis-networks/goerli-testnet/addresses.json
       DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT: "https://ethereum-goerli.publicnode.com"
       DATA_TRANSPORT_LAYER__L2_RPC_ENDPOINT: "https://goerli.gateway.metisdevops.link"
       DATA_TRANSPORT_LAYER__SYNC_FROM_L1: "false"
@@ -53,8 +53,8 @@ services:
     environment:
       CHAIN_ID: 599
       NETWORK_ID: 599
-      URL: https://ericlee42.github.io/metis-networks/goerli-testnet/addresses.json
-      L2GETH_GENESIS_URL: https://ericlee42.github.io/metis-networks/goerli-testnet/state-dump.latest.json
+      URL: https://metisprotocol.github.io/metis-networks/goerli-testnet/addresses.json
+      L2GETH_GENESIS_URL: https://metisprotocol.github.io/metis-networks/goerli-testnet/state-dump.latest.json
       ROLLUP_CLIENT_HTTP: http://dtl:7878
       L2_URL: https://goerli.gateway.metisdevops.link
       SEQUENCER_CLIENT_HTTP: https://goerli.gateway.metisdevops.link

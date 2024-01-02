@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     stop_grace_period: 30s
     environment:
-      URL: https://ericlee42.github.io/metis-networks/mainnet/addresses.json
+      URL: https://metisprotocol.github.io/metis-networks/andromeda-mainnet/addresses.json
       DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT: "https://eth.llamarpc.com"
       DATA_TRANSPORT_LAYER__L2_RPC_ENDPOINT: "https://andromeda.metis.io/?owner=1088"
       DATA_TRANSPORT_LAYER__SYNC_FROM_L1: "false"
@@ -51,11 +51,10 @@ services:
       timeout: 3s
       retries: 6
     environment:
-      URL: https://ericlee42.github.io/metis-networks/mainnet/addresses.json
-      L2GETH_GENESIS_URL: https://ericlee42.github.io/metis-networks/mainnet/state-dump.latest.json
+      L2GETH_GENESIS_URL: https://metisprotocol.github.io/metis-networks/andromeda-mainnet/state-dump.latest.json
       ROLLUP_CLIENT_HTTP: http://dtl:7878
-      L2_URL: https://andromeda.metis.io/?owner=1088
-      SEQUENCER_CLIENT_HTTP: https://andromeda.metis.io/?owner=1088
+      L2_URL: https://andromeda.metis.io
+      SEQUENCER_CLIENT_HTTP: https://andromeda.metis.io
       ETH1_CTC_DEPLOYMENT_HEIGHT: 13626959
       CHAIN_ID: 1088
       NETWORK_ID: 1088
