@@ -17,7 +17,7 @@ CPU: 4 cores (2 cores at least)
 
 Storage:
 
-Minimum 50GB for a full node and 250GB for an archive node (make sure it is extendable)
+Minimum 50GB for a full node and 300GB for an archive node (make sure it is extendable)
 
 # Setup a replica node
 
