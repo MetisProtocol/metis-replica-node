@@ -1,3 +1,6 @@
+Replica node is phasing out, you can still use it on mainnet, but it's not avaliable on Sepolia testnet
+---
+
 # Metis Replica Node
 
 It retrives data from L2 nodes, and no blocks lag behind.
