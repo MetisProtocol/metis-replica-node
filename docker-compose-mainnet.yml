@@ -1,29 +1,17 @@
 version: "3"
 
 services:
-  dtl:
-    image: metisdao/data-transport-layer:20230713210754
+  l1dtl:
+    image: ericlee/metis:dtl-3
     restart: unless-stopped
     stop_grace_period: 30s
-    environment:
-      URL: https://metisprotocol.github.io/metis-networks/andromeda-mainnet/addresses.json
-      DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT: "https://eth.llamarpc.com"
-      DATA_TRANSPORT_LAYER__L2_RPC_ENDPOINT: "https://andromeda.metis.io/?owner=1088"
-      DATA_TRANSPORT_LAYER__SYNC_FROM_L1: "false"
-      DATA_TRANSPORT_LAYER__SYNC_FROM_L2: "true"
-      DATA_TRANSPORT_LAYER__L2_CHAIN_ID: "1088"
-      DATA_TRANSPORT_LAYER__DB_PATH: /data/db
-      DATA_TRANSPORT_LAYER__SERVER_PORT: "7878"
-      DATA_TRANSPORT_LAYER__TRANSACTIONS_PER_POLLING_INTERVAL: "1000"
-      DATA_TRANSPORT_LAYER__CONFIRMATIONS: "0"
-      DATA_TRANSPORT_LAYER__POLLING_INTERVAL: "100"
-      DATA_TRANSPORT_LAYER__LOGS_PER_POLLING_INTERVAL: "2000"
-      DATA_TRANSPORT_LAYER__DANGEROUSLY_CATCH_ALL_ERRORS: "true"
-      DATA_TRANSPORT_LAYER__SERVER_HOSTNAME: "0.0.0.0"
     expose:
       - 7878
     volumes:
-      - ./chaindata/dtl:/data
+      - ./chaindata/l1dtl:/data
+    env_file:
+      - ./l1dtl.env
+      - .env
     healthcheck:
       test: ["CMD-SHELL", "curl http://127.0.0.1:7878"]
       interval: 5s
@@ -36,12 +24,11 @@ services:
         max-file: "10"
 
   l2geth:
-    image: metisdao/l2geth:20230713220744
-    entrypoint: ["sh", "/scripts/geth.sh"]
+    image: ericlee/metis:l2geth-5
     restart: unless-stopped
     stop_grace_period: 2m
     env_file:
-      - ./geth.env
+      - ./l2geth.env
     depends_on:
       dtl:
         condition: service_healthy
@@ -50,18 +37,8 @@ services:
       interval: 5s
       timeout: 3s
       retries: 6
-    environment:
-      L2GETH_GENESIS_URL: https://metisprotocol.github.io/metis-networks/andromeda-mainnet/state-dump.latest.json
-      ROLLUP_CLIENT_HTTP: http://dtl:7878
-      L2_URL: https://andromeda.metis.io
-      SEQUENCER_CLIENT_HTTP: https://andromeda.metis.io
-      ETH1_CTC_DEPLOYMENT_HEIGHT: 13626959
-      CHAIN_ID: 1088
-      NETWORK_ID: 1088
-      TARGET_GAS_LIMIT: 1100000000
     volumes:
       - ./chaindata/l2geth:/root/.ethereum
-      - ./scripts:/scripts
     ports:
       - 8546:8546
       - 8545:8545

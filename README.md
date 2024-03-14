@@ -1,28 +1,24 @@
-Replica node is phasing out, you can still use it on mainnet, but it's not avaliable on Sepolia testnet
----
-
 # Metis Replica Node
 
-It retrives data from L2 nodes, and no blocks lag behind.
+Replica node is using P2P now.
 
 # Prerequisite
 
 - Linux(x86_64)
 - docker
+- Ethereum node with full history
 
 FYI, check out https://docs.docker.com/engine/install/ if you don't know how to install docker.
 
 ## Recommended hardware specification
 
-RAM: 8 GB (4 GB at least)
+AWS c5.2xlarge
 
-CPU: 4 cores (2 cores at least)
-
-Storage:
-
-Minimum 50GB for a full node and 300GB for an archive node (make sure it is extendable)
+gp3 with 200 MB/s throughput
 
 # Setup a replica node
+
+If you want to upgrade from the legacy replica node, please refer to this documentation.
 
 ## Clone the repository
 
@@ -36,9 +32,13 @@ git clone https://github.com/ericlee42/metis-replica-node
 cp docker-compose-mainnet.yml docker-compose.yml
 ```
 
-if you want to use testnet, use `docker-compose-testnet.yml` file instead.
-
 Most configurations can be set through environment variables, please refer to [config.md](./config.md) for details.
+
+Add your eth rpc to the `.env` file
+
+```
+DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT=https://eth-node-example.com
+```
 
 **Optional: Archive mode**
 
@@ -51,24 +51,6 @@ l2geth:
     # enable debug api if you need it
     RPC_API: eth,net,web3,debug
     WS_API: eth,net,web3,debug
-```
-
-**Optional: graphql**
-
-if you need the graphql api, you can add the following to l2geth.
-
-```yaml
-# redacted
-l2geth:
-  entrypoint: ["sh", "/scripts/geth.sh"]
-  command:
-    - --graphql
-    - --graphql.addr=0.0.0.0
-    - --graphql.port=8547
-    - --graphql.corsdomain=*
-    - --graphql.vhosts=*
-  ports:
-    - 8547:8547
 ```
 
 **Optional: change volumes**
@@ -118,4 +100,57 @@ $ curl -sS 'http://localhost:8545' --data-raw '{"id":"1","jsonrpc":"2.0","method
 26510
 $ curl -sS 'https://andromeda.metis.io' --data-raw '{"id":"1","jsonrpc":"2.0","method":"eth_blockNumber","params":[]}' -H 'Content-Type: application/json'  | jq -r '.result' | xargs printf '%d\n'
 9612875
+```
+
+## Upgrade from legacy replica node
+
+1. Prepre an ETH L1 node without history prune
+
+Not an archive node, but transaction and event logs should be retained
+
+Why?
+
+Since we use p2p to setup a node, you can't trust your peers.
+
+Many transactions, for example, deposits from L1, you can't verify them from p2p.
+
+so it's a security consideration.
+
+If you use your self maintained go-ethereum client
+
+please don't set very high value for following key, 100 is recommended value.
+
+if you use rpc from a third party, the value can set very high like 100k due to they have optimized for the queries.
+
+```
+DATA_TRANSPORT_LAYER__LOGS_PER_POLLING_INTERVAL=100
+DATA_TRANSPORT_LAYER__TRANSACTIONS_PER_POLLING_INTERVAL=100
+```
+
+2. Delete configurations for legacy replica node
+
+```
+$ rm -rf ./chaindata/l2geth/keystore
+```
+
+3. Update compose file and env
+
+## Quick start from snapshots
+
+We provided public aws ebs snapshot for you if you need them.
+
+l1dtl
+
+snap-048e442e36aac56d2
+
+archived l2geth
+
+snap-040e6cd4c9a877911
+
+You can use the snapshots on aws us-east-1 region, and copy them to another region.
+
+You need to delete the nodekey to enable p2p connections
+
+```
+$ rm -rf ./chaindata/l2geth/geth/nodeky
 ```
