@@ -4,6 +4,7 @@ services:
   l1dtl:
     image: ericlee42/metis:dtl-3
     restart: unless-stopped
+    platform: linux/amd64
     stop_grace_period: 30s
     expose:
       - 7878
@@ -25,6 +26,7 @@ services:
 
   l2geth:
     image: ericlee42/metis:l2geth-5
+    platform: linux/amd64
     restart: unless-stopped
     stop_grace_period: 2m
     env_file:
