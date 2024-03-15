@@ -2,7 +2,7 @@ version: "3"
 
 services:
   l1dtl:
-    image: ericlee/metis:dtl-3
+    image: ericlee42/metis:dtl-3
     restart: unless-stopped
     stop_grace_period: 30s
     expose:
@@ -24,7 +24,7 @@ services:
         max-file: "10"
 
   l2geth:
-    image: ericlee/metis:l2geth-5
+    image: ericlee42/metis:l2geth-5
     restart: unless-stopped
     stop_grace_period: 2m
     env_file:

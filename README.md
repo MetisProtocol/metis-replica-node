@@ -104,7 +104,7 @@ $ curl -sS 'https://andromeda.metis.io' --data-raw '{"id":"1","jsonrpc":"2.0","m
 
 ## Upgrade from legacy replica node
 
-1. Prepre an ETH L1 node without history prune
+1. Prepare an ETH L1 node without history prune
 
 Not an archive node, but transaction and event logs should be retained
 
