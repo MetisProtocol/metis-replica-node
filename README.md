@@ -135,6 +135,8 @@ $ rm -rf ./chaindata/l2geth/keystore
 
 3. Update compose file and env
 
+**NOTE: legacy replica node uses L2 DTL, you can't use the data and configration.**
+
 ## Quick start from snapshots
 
 We provided public aws ebs snapshot for you if you need them.
