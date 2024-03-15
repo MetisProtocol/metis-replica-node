@@ -30,7 +30,7 @@ services:
     env_file:
       - ./l2geth.env
     depends_on:
-      dtl:
+      l1dtl:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "curl http://127.0.0.1:8545"]
