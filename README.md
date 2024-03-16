@@ -23,7 +23,7 @@ If you want to upgrade from the legacy replica node, please refer to this docume
 ## Clone the repository
 
 ```
-git clone https://github.com/ericlee42/metis-replica-node
+git clone https://github.com/MetisProtocol/metis-replica-node
 ```
 
 ## Update configuration
