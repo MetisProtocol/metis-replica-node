@@ -150,7 +150,7 @@ You can use the snapshots on aws us-east-1 region, and copy them to another regi
 1. You need to delete the nodekey to enable p2p connections
 
 ```
-$ rm -rf ./chaindata/l2geth/geth/nodeky
+$ rm -rf ./chaindata/l2geth/geth/nodekey
 ```
 
 2. You must add `GCMODE=archived` env to the l2geth service if you use the l2geth snapshot
