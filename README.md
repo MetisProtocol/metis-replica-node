@@ -48,9 +48,6 @@ if you need an archive node, you can add following environment variables to l2ge
 l2geth:
   environment:
     GCMODE: archive
-    # enable debug api if you need it
-    RPC_API: eth,net,web3,debug
-    WS_API: eth,net,web3,debug
 ```
 
 **Optional: change volumes**
@@ -64,12 +61,11 @@ You can change the volumes configuration in your compose file to customize the s
 services:
   dtl:
     volumes:
-      - ./chaindata/dtl:/data # the volume mapping for dtl
+      - ./chaindata/l1dtl:/data # the volume mapping for dtl
 
   l2geth:
     volumes:
       - ./chaindata/l2geth:/root/.ethereum # the volume mapping for l2geth
-      - ./scripts:/scripts
 ```
 
 ## Start the services
@@ -151,8 +147,10 @@ snap-040e6cd4c9a877911
 
 You can use the snapshots on aws us-east-1 region, and copy them to another region.
 
-You need to delete the nodekey to enable p2p connections
+1. You need to delete the nodekey to enable p2p connections
 
 ```
 $ rm -rf ./chaindata/l2geth/geth/nodeky
 ```
+
+2. You must add `GCMODE=archived` env to the l2geth service if you use the l2geth snapshot
