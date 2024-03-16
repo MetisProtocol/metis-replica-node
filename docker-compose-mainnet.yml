@@ -2,7 +2,7 @@ version: "3"
 
 services:
   l1dtl:
-    image: ericlee42/metis:dtl-3
+    image: ericlee42/metis:dtl-4
     restart: unless-stopped
     platform: linux/amd64
     stop_grace_period: 30s
