@@ -131,7 +131,10 @@ $ rm -rf ./chaindata/l2geth/keystore
 
 3. Update compose file and env
 
-**NOTE: legacy replica node uses L2 DTL, you can't use the data and configration.**
+- Don't delete data of your l2geth, you can still use it!
+- Must not use the data and configration of l2dtl, current replica node uses l1dtl instead
+- You can use the snapshot to spin up your l1dtl service. and we will update the snapshot id in the latest release from time to time.
+- The env files have many changes, if you want to own custom configurations, make sure that your understand the result first.
 
 ## Quick start from snapshots
 
@@ -139,13 +142,17 @@ We provided public aws ebs snapshot for you if you need them.
 
 l1dtl
 
-snap-048e442e36aac56d2
+snap-052e67eaa50dd7e84
 
 archived l2geth
 
-snap-040e6cd4c9a877911
+snap-0382a5d7113eed8ff
 
-You can use the snapshots on aws us-east-1 region, and copy them to another region.
+You can use the snapshots on aws us-east-1 region, and copy them to another region you are using.
+
+We don't provide it on oss like s3, because it's very very slow to create, download and restore.
+
+You can use the snapshots to start an rpc in 20 minutes, but you will take more than 5 hours if you use oss.
 
 1. You need to delete the nodekey to enable p2p connections
 
@@ -154,3 +161,9 @@ $ rm -rf ./chaindata/l2geth/geth/nodekey
 ```
 
 2. You must add `GCMODE=archived` env to the l2geth service if you use the l2geth snapshot
+
+## Known issues
+
+1. l2geth can't start from scratch
+
+we are investigating this, please use snapshot we provided instead
