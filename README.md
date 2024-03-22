@@ -126,12 +126,13 @@ DATA_TRANSPORT_LAYER__TRANSACTIONS_PER_POLLING_INTERVAL=100
 2. Delete configurations for legacy replica node
 
 ```
-$ rm -rf ./chaindata/l2geth/keystore
+$ rm -rf path-to-l2geth/keystore
 ```
 
 3. Update compose file and env
 
 - Don't delete data of your l2geth, you can still use it!
+- Don't change `GCMODE` env you're using
 - Must not use the data and configration of l2dtl, current replica node uses l1dtl instead
 - You can use the snapshot to spin up your l1dtl service. and we will update the snapshot id in the latest release from time to time.
 - The env files have many changes, if you want to own custom configurations, make sure that your understand the result first.
@@ -144,9 +145,13 @@ l1dtl
 
 snap-052e67eaa50dd7e84
 
-archived l2geth
+archived l2geth(You must add `GCMODE=archived` env to l2geth)
 
 snap-0382a5d7113eed8ff
+
+full l2geth
+
+snap-056667dbb126a9947
 
 You can use the snapshots on aws us-east-1 region, and copy them to another region you are using.
 
@@ -154,13 +159,11 @@ We don't provide it on oss like s3, because it's very very slow to create, downl
 
 You can use the snapshots to start an rpc in 20 minutes, but you will take more than 5 hours if you use oss.
 
-1. You need to delete the nodekey to enable p2p connections
+Finally, Don't forget to delete the nodekey to enable p2p connections
 
 ```
-$ rm -rf ./chaindata/l2geth/geth/nodekey
+$ rm -rf path-to-l2geth/geth/nodekey
 ```
-
-2. You must add `GCMODE=archived` env to the l2geth service if you use the l2geth snapshot
 
 ## Known issues
 
