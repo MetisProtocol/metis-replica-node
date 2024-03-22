@@ -2,7 +2,7 @@ version: "3"
 
 services:
   l1dtl:
-    image: ericlee42/metis:dtl-4
+    image: metisdao/dtl:v0.0.1
     restart: unless-stopped
     platform: linux/amd64
     stop_grace_period: 30s
@@ -25,7 +25,7 @@ services:
         max-file: "10"
 
   l2geth:
-    image: ericlee42/metis:l2geth-5
+    image: metisdao/l2geth:v0.0.2
     platform: linux/amd64
     restart: unless-stopped
     stop_grace_period: 2m
@@ -35,10 +35,11 @@ services:
       l1dtl:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl http://127.0.0.1:8545"]
-      interval: 5s
-      timeout: 3s
-      retries: 6
+      test: ["CMD", "is-l2geth-stalled"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     volumes:
       - ./chaindata/l2geth:/root/.ethereum
     ports:
