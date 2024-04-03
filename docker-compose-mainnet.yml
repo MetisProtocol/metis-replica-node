@@ -2,7 +2,7 @@ version: "3"
 
 services:
   l1dtl:
-    image: metisdao/dtl:v0.0.1
+    image: metisdao/dtl:v0.0.2
     restart: unless-stopped
     platform: linux/amd64
     stop_grace_period: 30s
@@ -25,7 +25,7 @@ services:
         max-file: "10"
 
   l2geth:
-    image: metisdao/l2geth:v0.0.2
+    image: metisdao/l2geth:v0.0.4
     platform: linux/amd64
     restart: unless-stopped
     stop_grace_period: 2m
