@@ -40,16 +40,6 @@ Add your eth rpc to the `.env` file
 DATA_TRANSPORT_LAYER__L1_RPC_ENDPOINT=https://eth-node-example.com
 ```
 
-**Optional: Archive mode**
-
-if you need an archive node, you can add following environment variables to l2geth service.
-
-```yaml
-l2geth:
-  environment:
-    GCMODE: archive
-```
-
 **Optional: change volumes**
 
 By default, replica node creates a `chaindata` directory in the current directory.
@@ -145,13 +135,9 @@ l1dtl
 
 snap-052e67eaa50dd7e84
 
-archived l2geth(You must add `GCMODE=archived` env to l2geth)
+l2geth
 
 snap-0382a5d7113eed8ff
-
-full l2geth
-
-snap-056667dbb126a9947
 
 You can use the snapshots on aws us-east-1 region, and copy them to another region you are using.
 
@@ -164,9 +150,3 @@ Finally, Don't forget to delete the nodekey to enable p2p connections
 ```
 $ rm -rf path-to-l2geth/geth/nodekey
 ```
-
-## Known issues
-
-1. l2geth can't start from scratch
-
-we are investigating this, please use snapshot we provided instead
