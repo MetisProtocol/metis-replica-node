@@ -1,6 +1,8 @@
 # Metis Replica Node
 
-Replica node is using P2P now.
+This repository is deprecated
+
+please use [metis-ansible](https://github.com/MetisProtocol/metis-ansible) and [metis-charts](https://github.com/metisprotocol/metis-charts) instead.
 
 # Prerequisite
 
@@ -15,6 +17,8 @@ FYI, check out https://docs.docker.com/engine/install/ if you don't know how to 
 AWS c5.2xlarge
 
 gp3 with 200 MB/s throughput
+
+Open 30303 tcp/udp port for p2p connnections
 
 # Setup a replica node
 
@@ -62,15 +66,6 @@ services:
 
 ```console
 $ docker compose up -d
-```
-
-It means the start-up was successful if you see the both services are healthy.
-
-```console
-$ docker compose ps
-NAME                          IMAGE                                          COMMAND                 SERVICE   CREATED              STATUS                        PORTS
-metis-replica-node-dtl-1      metisdao/data-transport-layer:20230713210754   "./dtl.sh"              dtl       About a minute ago   Up About a minute (healthy)   7878/tcp
-metis-replica-node-l2geth-1   metisdao/l2geth:20230713220744                 "sh /scripts/geth.sh"   l2geth    About a minute ago   Up 57 seconds (healthy)       0.0.0.0:8545-8546->8545-8546/tcp, 8547/tcp
 ```
 
 ## Check syncing status

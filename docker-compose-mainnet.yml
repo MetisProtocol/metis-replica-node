@@ -1,17 +1,16 @@
-version: "3"
+name: "metis-mainnet"
 
 services:
   l1dtl:
     image: metisdao/dtl:v0.0.2
-    restart: unless-stopped
     platform: linux/amd64
     stop_grace_period: 30s
-    expose:
-      - 7878
+    network_mode: host
+    restart: unless-stopped
     volumes:
       - ./chaindata/l1dtl:/data
     env_file:
-      - ./l1dtl.env
+      - ./mainnet/l1dtl.env
       - .env
     healthcheck:
       test: ["CMD-SHELL", "curl http://127.0.0.1:7878"]
@@ -29,8 +28,9 @@ services:
     platform: linux/amd64
     restart: unless-stopped
     stop_grace_period: 2m
+    network_mode: host
     env_file:
-      - ./l2geth.env
+      - ./mainnet/l2geth.env
     depends_on:
       l1dtl:
         condition: service_healthy
@@ -42,9 +42,6 @@ services:
       start_period: 10s
     volumes:
       - ./chaindata/l2geth:/root/.ethereum
-    ports:
-      - 8546:8546
-      - 8545:8545
     logging:
       driver: "json-file"
       options:
