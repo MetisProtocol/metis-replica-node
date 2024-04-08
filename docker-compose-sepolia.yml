@@ -2,7 +2,7 @@ name: "metis-sepolia"
 
 services:
   l1dtl:
-    image: metisdao/dtl:v0.0.2
+    image: metisdao/dtl:v0.1.2
     platform: linux/amd64
     container_name: l1dtl
     stop_grace_period: 30s
@@ -26,7 +26,7 @@ services:
         max-file: 10
 
   l2geth:
-    image: metisdao/l2geth:v0.1.1
+    image: metisdao/l2geth:v0.1.2
     platform: linux/amd64
     container_name: l2geth
     restart: unless-stopped

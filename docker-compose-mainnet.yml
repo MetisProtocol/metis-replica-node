@@ -2,7 +2,7 @@ name: "metis-mainnet"
 
 services:
   l1dtl:
-    image: metisdao/dtl:v0.0.2
+    image: metisdao/dtl:v0.1.2
     platform: linux/amd64
     stop_grace_period: 30s
     network_mode: host
@@ -24,7 +24,7 @@ services:
         max-file: "10"
 
   l2geth:
-    image: metisdao/l2geth:v0.0.4
+    image: metisdao/l2geth:v0.1.2
     platform: linux/amd64
     restart: unless-stopped
     stop_grace_period: 2m

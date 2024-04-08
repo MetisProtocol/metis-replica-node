@@ -68,60 +68,6 @@ services:
 $ docker compose up -d
 ```
 
-## Check syncing status
-
-You can't use `eth_syncing` to check if the node is fully synchronized.
-
-You can compare the block number of the local l2geth with the block number of our public node to determine whether the local service has been synchronized.
-
-If they are equal, which means that your l2geth has synchronized.
-
-```console
-$ curl -sS 'http://localhost:8545' --data-raw '{"id":"1","jsonrpc":"2.0","method":"eth_blockNumber","params":[]}' -H 'Content-Type: application/json'  | jq -r '.result' | xargs printf '%d\n'
-26510
-$ curl -sS 'https://andromeda.metis.io' --data-raw '{"id":"1","jsonrpc":"2.0","method":"eth_blockNumber","params":[]}' -H 'Content-Type: application/json'  | jq -r '.result' | xargs printf '%d\n'
-9612875
-```
-
-## Upgrade from legacy replica node
-
-1. Prepare an ETH L1 node without history prune
-
-Not an archive node, but transaction and event logs should be retained
-
-Why?
-
-Since we use p2p to setup a node, you can't trust your peers.
-
-Many transactions, for example, deposits from L1, you can't verify them from p2p.
-
-so it's a security consideration.
-
-If you use your self maintained go-ethereum client
-
-please don't set very high value for following key, 100 is recommended value.
-
-if you use rpc from a third party, the value can set very high like 100k due to they have optimized for the queries.
-
-```
-DATA_TRANSPORT_LAYER__LOGS_PER_POLLING_INTERVAL=100
-DATA_TRANSPORT_LAYER__TRANSACTIONS_PER_POLLING_INTERVAL=100
-```
-
-2. Delete configurations for legacy replica node
-
-```
-$ rm -rf path-to-l2geth/keystore
-```
-
-3. Update compose file and env
-
-- Don't delete data of your l2geth, you can still use it!
-- Don't change `GCMODE` env you're using
-- Must not use the data and configration of l2dtl, current replica node uses l1dtl instead
-- You can use the snapshot to spin up your l1dtl service. and we will update the snapshot id in the latest release from time to time.
-- The env files have many changes, if you want to own custom configurations, make sure that your understand the result first.
-
 ## Quick start from snapshots
 
 We provided public aws ebs snapshot for you if you need them.
@@ -134,13 +80,7 @@ l2geth
 
 snap-0382a5d7113eed8ff
 
-You can use the snapshots on aws us-east-1 region, and copy them to another region you are using.
-
-We don't provide it on oss like s3, because it's very very slow to create, download and restore.
-
-You can use the snapshots to start an rpc in 20 minutes, but you will take more than 5 hours if you use oss.
-
-Finally, Don't forget to delete the nodekey to enable p2p connections
+**Don't forget to delete the nodekey if the node key exists**
 
 ```
 $ rm -rf path-to-l2geth/geth/nodekey
